@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 配置 -->
+ <configuration>
+<mappers>
+ <!-- 扫描接口对应的 XXXMapper.xml 文件-->
+<!-- <mapper resource="com/qjh/dao/UserMapper.xml"/> -->
+</mappers>
+</configuration>

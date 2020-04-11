@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.qjh.dao.UserMapper">
+    <select id="getUser" resultType="com.ysd.entity.User">
+      select * from users
+      <where>
+        <if test=" userName != null and userName != '' ">
+          and LoginName like "%"#{userName}"%"
+        </if>
+        <if test=" beginDate != null and beginDate != '' ">
+          and CreateTime &gt; #{beginDate}
+        </if>
+         <if test=" endDate != null and endDate != '' ">
+          and CreateTime &gt; #{endDate}
+        </if>
+         <if test=" isLock != null and isLock != '' ">
+          and IsLockout = #{isLock}
+        </if>
+      </where>
+       limit #{page},#{limit}
+    </select>
+    <select id="getCount" resultType="int">
+      select count(*) from users
+      <where>
+        <if test=" userName != null and userName != '' ">
+          and LoginName like "%"#{userName}"%"
+        </if>
+        <if test=" beginDate != null and beginDate != '' ">
+          and CreateTime &gt; #{beginDate}
+        </if>
+         <if test=" endDate != null and endDate != '' ">
+          and CreateTime &gt; #{endDate}
+        </if>
+         <if test=" isLock != null and isLock != '' ">
+          and IsLockout = #{isLock}
+        </if>
+      </where>
+    </select>
+    <insert id="getAdd">
+     insert into users (Id,LoginName,Password,CreateTime,IsLockout) values(#{id},#{userName},#{passWord},#{createDate},#{isLock})
+    </insert>
+    <update id="getUpdate">
+      update users set LoginName= #{name},Password= #{passWord},CreateTime= #{createTime},IsLockout = #{isLock} where Id= #{id}
+    </update>
+    <delete id="getDelete">
+         delete from users where Id= #{id}
+    </delete>
+    <update id="getLock">
+         update users set IsLockout= #{lock} where Id= #{id}
+    </update>
+    <update id="updatePass">
+         update users set Password = 'ysd123' where Id= #{id}
+    </update>
+    <select id="getRolesAll" resultType="com.ysd.entity.Role">
+        select * from roles
+    </select>
+    <select id="getRolesById" resultType="com.ysd.entity.Role">
+       select * from roles where Id in( select RoleId from userroles where UserId=#{id})
+    </select>
+    <insert id="addRoles">
+     insert into userroles (UserId,RoleId) values(#{userid},#{roleid})
+    </insert>
+    <delete id="delRoles">
+        delete from userroles where UserId =#{userid} and RoleId= #{roleid}
+    </delete>
+</mapper>
